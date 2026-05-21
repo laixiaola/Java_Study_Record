@@ -18,7 +18,7 @@ public class MainFrame extends JFrame implements ActionListener {
     int[] vote=new int[5];
     int voteNum=0;
     int maxVote=0;
-    String[] people={"坎耶","肯得里克","德里克","杰兹","马歇尔妈妈"};
+    String[] people={"威斯特","肯得里克","德雷克","杰兹","马歇尔"};
 //    String win;
     public MainFrame(){
         setLocation(300,300);

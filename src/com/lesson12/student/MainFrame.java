@@ -1,17 +1,14 @@
 /*
     题目：
-        编写如下学生信息录入窗口界面，当点击保存按钮，将用户录入信息显示在右侧的文本区中。
-        使用边布局、网格布局、流式布局
-                            ↑
-                  其实老师上课给的答案并没有用流式布局
+        在lesson8/student的基础上，实现一个“保存到文件”按钮
  */
-package com.lesson10.student;
+package com.lesson12.student;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.io.*;
 
 public class MainFrame extends JFrame implements ActionListener {
     JTextField name=new JTextField(10);
@@ -19,6 +16,9 @@ public class MainFrame extends JFrame implements ActionListener {
     JTextField college=new JTextField(10);
     JTextField major=new JTextField(10);
     JTextArea area=new JTextArea(5,30);
+    JButton b1=new JButton("保存");
+    //新增“保存到文件”按钮
+    JButton b2=new JButton("保存到文件");
 
     public MainFrame(){
         setLocation(300,300);
@@ -37,12 +37,13 @@ public class MainFrame extends JFrame implements ActionListener {
         JLabel l3=new JLabel("请录入学生学号：");
         JLabel l4=new JLabel("请录入学生学院：");
         JLabel l5=new JLabel("请录入学生专业：");
-        JButton b1=new JButton("保存");
-        b1.addActionListener(this);
 
-        p1.setLayout(new GridLayout(10,1,10,15));
+        b1.addActionListener(this);
+        b2.addActionListener(this);
+
+        p1.setLayout(new GridLayout(11,1,10,15));
         p1.add(l1);p1.add(l2);p1.add(name);p1.add(l3);p1.add(num);p1.add(l4);
-        p1.add(college);p1.add(l5);p1.add(major);p1.add(b1);
+        p1.add(college);p1.add(l5);p1.add(major);p1.add(b1);p1.add(b2);
         p1.setBorder(new EmptyBorder(0,10,5,0));
 
         p2.setLayout(new BorderLayout());
@@ -60,6 +61,17 @@ public class MainFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        area.append("姓名："+name.getText()+" 学号："+num.getText()+" 学院："+college.getText()+" 专业："+major.getText()+"\n");
+        if(e.getSource()==b1) {
+            area.append("姓名：" + name.getText() + " 学号：" + num.getText() + " 学院：" + college.getText() + " 专业：" + major.getText() + "\n");
+        }
+        //实现保存到文件的按钮事件
+        else if(e.getSource()==b2){
+            try(FileOutputStream fos=new FileOutputStream("src/com/lesson12/student/studentfile.txt")) {
+                byte[] bytes=area.getText().getBytes();
+                fos.write(bytes);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
     }
 }
